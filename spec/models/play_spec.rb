@@ -20,18 +20,43 @@ describe Play do
   describe 'Methods' do
     let(:p)   { Play.new }
 
-    describe 'Instance Methods' do
-      describe '#vote_for' do
-        it 'ignores a vote if player does not exist' do
-          p.vote_for('A')
-          p.votes['A'].should == Play::NULL
+    describe 'Class Methods' do
+      describe '.find' do
+        it 'finds existing records' do
+          p << 'A'
+          q = Play.find p.id
+          q.should_not be_nil
+          q.players.should == %w(A)
         end
 
-        it 'increments a players votes' do
-          p.users << 'A'
-          p.votes['A'] = 1
-          p.vote_for('A')
-          p.votes['A'].should == 2
+        it 'does not find "new" records' do
+          q = Play.find p.id
+          q.should be_nil
+        end
+      end
+    end
+
+    describe 'Instance Methods' do
+      describe '<< or add_players' do
+        it '<< adds to the list of players' do
+          p << ['A', 'B']
+          p.players.to_set.should == %w(A B).to_set
+        end
+
+        it 'add_players adds to the list of players' do
+          p.add_players 'A', 'B', 'C'
+          p.players.to_set.should == %w(A B C).to_set
+
+          p.add_players %w(X Y Z)
+          p.players.to_set.should == %w(A B C X Y Z).to_set
+        end
+      end
+
+      describe 'players=' do
+        it 'sets the players' do
+          p.add_players %w(X Y Z)
+          p.players = %w(A B C)
+          p.players.to_set.should == %w(A B C).to_set
         end
       end
 
@@ -43,9 +68,23 @@ describe Play do
         end
 
         it 'records a players answer' do
-          p.users << 'A'
+          p << 'A'
           p.record_answer 'A', 'apple'
           p.answers['A'].should == 'apple'
+        end
+      end
+
+      describe '#vote_for' do
+        it 'ignores a vote if player does not exist' do
+          p.vote_for('A')
+          p.votes['A'].should == Play::NULL
+        end
+
+        it 'increments a players votes' do
+          p << 'A'
+          p.votes['A'] = 1
+          p.vote_for('A')
+          p.votes['A'].should == 2
         end
       end
     end

@@ -6,6 +6,7 @@ class Play
   include Redis::Objects
 
   hash_key    :answers
+  lock        :roster
   sorted_set  :scores
   set         :users
   sorted_set  :votes
@@ -13,11 +14,36 @@ class Play
   attr_reader :id
 
   def self.find(id)
-    Play.new(id)
+    object = Play.new(id)
+    object.new_record? ? nil : object
   end
 
   def initialize(id = nil)
     @id = id || UUID.generate
+  end
+
+  def add_players(*ids)
+    self << ids
+  end
+  alias_method :add_player, :add_players
+
+  def new_record?
+    players.empty?
+  end
+
+  def players
+    users.members
+  end
+
+  def players=(*ids)
+    roster_lock.lock do
+      users.clear
+      self << ids
+    end
+  end
+
+  def <<(*ids)
+    Array.wrap(ids).flatten.each {|id| users << id}
   end
 
   def record_answer(player, answer)

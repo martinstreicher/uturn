@@ -22,4 +22,5 @@ group :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'shoulda', git: 'git://github.com/3den/shoulda.git'
+  gem 'simplecov', require: false
 end
