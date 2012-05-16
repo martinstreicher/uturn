@@ -10,8 +10,14 @@ class Play
   set         :users
   sorted_set  :votes
 
-  def id
-    UUID.generate :compact
+  attr_reader :id
+
+  def self.find(id)
+    Play.new(id)
+  end
+
+  def initialize(id = nil)
+    @id = id || UUID.generate
   end
 
   def record_answer(player, answer)
