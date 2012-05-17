@@ -77,7 +77,7 @@ describe Play do
       describe '#vote_for' do
         it 'ignores a vote if player does not exist' do
           p.vote_for('A')
-          p.votes['A'].should == Play::NULL
+          p.votes['A'].should == NULL
         end
 
         it 'increments a players votes' do

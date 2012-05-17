@@ -1,8 +1,4 @@
-require 'redis'
-require 'redis/objects'
-
-class Play
-  NULL = 0.0
+class Play < Basis
   include Redis::Objects
 
   hash_key    :answers
@@ -10,17 +6,6 @@ class Play
   sorted_set  :scores
   set         :users
   sorted_set  :votes
-
-  attr_reader :id
-
-  def self.find(id)
-    object = Play.new(id)
-    object.new_record? ? nil : object
-  end
-
-  def initialize(id = nil)
-    @id = id || UUID.generate
-  end
 
   def add_players(*ids)
     self << ids
