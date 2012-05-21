@@ -1,3 +1,3 @@
-class Game < ActiveRecord::Base
-  # attr_accessible :title, :body
+class Game < Basis
+  include Redis::Objects
 end

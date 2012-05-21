@@ -1,3 +1,3 @@
-class Room < ActiveRecord::Base
-  # attr_accessible :title, :body
+class Room < Basis
+  include Redis::Objects
 end

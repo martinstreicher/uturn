@@ -4,7 +4,6 @@ gem 'concerned_with'
 gem 'debugger'
 gem 'jbuilder'
 gem 'jquery-rails'
-gem 'inherited_resources'
 gem 'rails', '3.2.3'
 gem 'rails-api'
 gem 'redis'
@@ -15,7 +14,7 @@ gem 'uuid'
 
 group :development, :test do
   gem 'faker'
-  gem 'factory_girl_rails'
+  gem 'factory_girl'
   gem 'rails_best_practices'
 end
 
