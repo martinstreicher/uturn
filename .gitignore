@@ -1,3 +1,4 @@
+dump.rdb
 /.bundle
 /coverage
 /db/*.sqlite3
