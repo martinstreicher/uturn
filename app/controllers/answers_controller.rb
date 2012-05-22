@@ -4,7 +4,7 @@ class AnswersController < ApplicationController
     result  = @play.record_answer @player, @answer
     render(
       json:     @play, 
-      location: play_player_vote_url(@player, @player),
+      location: play_player_vote_url(@play.id, @player),
       status:   (result ? :created : :unprocessable_entity))
   end
 end

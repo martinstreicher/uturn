@@ -4,7 +4,7 @@ describe GamesController do
   describe 'Methods' do
   end
   
-  describe 'Private Methods' do
+  describe 'Private Methods (in Application Controller)' do
     let(:ps)  { %w(player1 player3) }
     let(:r)   { create :room, players: ps }
     let(:g)   { create :game, players: ps }
