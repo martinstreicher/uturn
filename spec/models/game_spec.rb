@@ -2,8 +2,13 @@ require 'spec_helper'
 
 describe Game do
   describe 'Attributes' do
+    describe 'plays' do
+      it 'records the IDs of plays in the game' do
+        
+      end
+    end
   end
-
+  
   describe 'Factories' do
     it 'create a game' do
       g = create :game
@@ -12,13 +17,14 @@ describe Game do
   end
   
   describe 'Methods' do
-    let(:g)   { Game.new maximum_number_of_players: 4}
-
-    describe 'Class Methods' do
-    end
+    let(:g)   { Game.new maximum_number_of_players: 4, name: 'Test'}
 
     describe 'Instance Methods' do
       describe '#initialize' do
+        it 'sets a default name' do
+          g.name.should == 'Test'
+        end
+        
         it 'sets the number of players' do
           g.minimum_number_of_players.should eq(2)
           g.maximum_number_of_players.should eq(4)
@@ -34,6 +40,14 @@ describe Game do
         it 'returns false if more players can join' do
           g.players = %w(a b c)
           g.full?.should be_false
+        end
+      end
+      
+      describe '#play' do
+        it 'returns a new play' do
+          p = g.play
+          debugger
+          p.answers.empty?.should be_true
         end
       end
       

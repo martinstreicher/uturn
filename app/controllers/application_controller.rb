@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
   before_filter :fetch_params
-  
+     
   private
     
     def fetch_params

@@ -2,6 +2,15 @@ require 'spec_helper'
 
 describe GamesController do
   describe 'Methods' do
+    describe 'POST create' do
+      let(:r) { create :room }
+      
+      it 'creates a game' do
+        post :create, room_id: r.id, name: 'Test'
+        assigns[:game].should_not be_nil
+        response.location.should == room_game_url(r.id, assigns[:game].id)
+      end
+    end
   end
   
   describe 'Private Methods (in Application Controller)' do

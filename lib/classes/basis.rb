@@ -5,10 +5,17 @@ class Basis
   include Redis::Objects
   
   lock        :roster
+  value       :uuid
   set         :users
   
   attr_reader :id
 
+  def self.create
+    object = self.new
+    object.save
+    object
+  end
+  
   def self.find(id)
     object = self.new(id)
     object.new_record? ? nil : object
@@ -26,7 +33,7 @@ class Basis
   alias_method :add_player, :add_players
 
   def new_record?
-    players.empty?
+    uuid.value.blank?
   end
 
   def players
@@ -40,7 +47,12 @@ class Basis
     end
   end
 
+  def save
+    uuid.value = @id
+  end
+  alias_method :save!, :save
+  
   def <<(*ids)
-    Array.wrap(ids).flatten.each {|id| users << id}
+    Array.wrap(ids).flatten.each {|i| users << i}
   end  
 end

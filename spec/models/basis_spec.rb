@@ -13,9 +13,17 @@ describe Basis do
     let(:b)   { Basis.new }
 
     describe 'Class Methods' do
+      describe '.create' do
+        it 'returns a new `saved` record' do
+          b = Basis.create
+          b.new_record?.should be_false
+        end
+      end
+      
       describe '.find' do
         it 'finds existing records' do
           b << 'A'
+          b.save
           q = Basis.find b.id
           q.should_not be_nil
           q.players.should == %w(A)
