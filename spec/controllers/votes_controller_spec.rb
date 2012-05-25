@@ -11,7 +11,7 @@ describe VotesController do
         post :create, play_id: p.id, player_id: votee
         assigns[:play].id.should == p.id
         assigns[:player].should == votee
-        p.votes[votee].should eq(1)
+        p.votes[votee].should eq(votes + 1)
         response.body.should == "1"
       end
       
