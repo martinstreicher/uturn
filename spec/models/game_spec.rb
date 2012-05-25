@@ -45,9 +45,9 @@ describe Game do
       
       describe '#play' do
         it 'returns a new play' do
-          p = g.play
-          debugger
-          p.answers.empty?.should be_true
+          list = (1..4).map { g.play }
+          g.plays.size.should eq(4)
+          g.plays.values.to_set.should == list.map(&:id).to_set
         end
       end
       

@@ -11,6 +11,23 @@ describe Play do
     end
   end
 
+  describe 'Factories' do
+    it ':play sets players' do
+      p = create :play
+      p.players.all? {|player| player =~ /^player/ }
+    end
+    
+    it ':play_with_answers creates answers' do
+      p = create :play_with_answers
+      p.players.all? { |player| p.answers[player].present? }
+    end
+    
+    it ':play_with_votes creates answers and votes' do
+      p = create :play_with_votes
+      p.players.all? { |player| p.votes[player].present? }
+    end    
+  end
+  
   describe 'Methods' do
     let(:p)   { Play.new }
 

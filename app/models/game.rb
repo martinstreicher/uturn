@@ -36,8 +36,7 @@ class Game < Basis
   end
 
   def play
-    plays << (new_play = Play.new)
-    new_play
+    Play.create.tap { |new_play| plays << new_play.id }
   end
   
   def name
