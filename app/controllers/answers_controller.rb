@@ -3,7 +3,7 @@ class AnswersController < ApplicationController
     @answer = params[:answer]
     result  = @play.record_answer @player, @answer
     render(
-      json:     @play, 
+      text:     @answer, 
       location: play_player_vote_url(@play.id, @player),
       status:   (result ? :created : :unprocessable_entity))
   end

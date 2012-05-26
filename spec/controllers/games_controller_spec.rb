@@ -11,6 +11,10 @@ describe GamesController do
         response.location.should == room_game_url(r.id, assigns[:game].id)
       end
     end
+    
+    describe 'GET show' do
+      let(:g) { create :game_with_players }
+    end
   end
   
   describe 'Private Methods (in Application Controller)' do

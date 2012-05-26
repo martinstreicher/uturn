@@ -2,6 +2,5 @@ object @game
 
 attributes :name
 
-node do |game|
-  {id: game.uuid.value}
-end
+node {|game| {id: game.uuid.value}}
+node {|game| {players: game.players}}
