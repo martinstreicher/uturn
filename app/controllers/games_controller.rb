@@ -1,12 +1,11 @@
 class GamesController < ApplicationController
   def create
     @name = params[:name]
-    @game = Game.new name: @name
-    @game.save
+    @game = @room.game @name
 
     render(
       template: 'games/show.json.rabl',
-      location: room_game_url(@room.id, @game.id),
+      location: game_url(@game.id),
       status:   (!@game.new_record? ? :created : :unprocessable_entity))
   end
   

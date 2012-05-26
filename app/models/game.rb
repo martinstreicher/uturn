@@ -13,8 +13,8 @@ class Game < Basis
       super nil
     end
     
-    options = args.shift || {}
-    game_name.value = options[:name] || 'New game'
+    options              = args.shift || {}
+    game_name.value      = options[:name] || 'New game'
     population_min.value = options[:minimum_number_of_players] || 2
     population_max.value = options[:maximum_number_of_players] || 8
   end
@@ -43,6 +43,10 @@ class Game < Basis
     game_name.value
   end
     
+  def name=(moniker)
+    game_name.value = moniker
+  end
+  
   def number_of_players
     players.size
   end

@@ -7,13 +7,22 @@ describe GamesController do
       
       it 'creates a game' do
         post :create, room_id: r.id, name: 'Test'
-        assigns[:game].should_not be_nil
-        response.location.should == room_game_url(r.id, assigns[:game].id)
+        game = assigns[:game]
+        game.should_not be_nil
+        game.name.should == 'Test'
+        response.location.should == game_url(game.id)
       end
     end
     
     describe 'GET show' do
       let(:g) { create :game_with_players }
+      
+      it 'should show the specified game' do
+        get :show, id: g.id
+        game = assigns[:game]
+        game.id.should == g.id
+        response.status.should eq(OK)
+      end
     end
   end
   

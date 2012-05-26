@@ -1,18 +1,21 @@
 Uturn::Application.routes.draw do
+  resources :games, only: [:show] do
+    resources :players, only: [:create, :destroy, :index, :show]
+  end
+   
   resources :plays, only: [:show] do
     resources :players, only: [:index] do
       resource :answer, only: [:create]
       resource :vote, only: [:create]
     end
   end
-
+  
   resources :rooms do
     get 'privatize', on: :member
     get 'publicize', on: :member
     resources :games do
       get 'privatize', on: :member
       get 'publicize', on: :member
-      resources :players, only: [:create, :destroy, :index, :show]
     end
     resources :players, only: [:create, :destroy, :index, :show]
   end

@@ -43,6 +43,19 @@ describe Game do
         end
       end
       
+      describe '#name' do
+        it 'returns the assigned name' do
+          g.name.should == 'Test'
+        end
+      end
+      
+      describe '#name=' do
+        it 'sets the name to the specified string' do
+          g.name = 'mrx'
+          g.name.should == 'mrx'
+        end
+      end
+      
       describe '#play' do
         it 'returns a new play' do
           list = (1..4).map { g.play }
