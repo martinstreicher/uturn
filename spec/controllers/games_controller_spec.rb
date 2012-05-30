@@ -17,11 +17,38 @@ describe GamesController do
     describe 'GET show' do
       let(:g) { create :game_with_players }
       
-      it 'should show the specified game' do
+      it 'shows the specified game' do
         get :show, id: g.id
         game = assigns[:game]
         game.id.should == g.id
-        response.status.should eq(OK)
+        response.status.should eq OK
+        JSON.parse(response.body).values.first.keys.
+          to_set.should == %w(name id players).to_set
+      end
+      
+      it 'returns :not_found if game is not extant' do
+        get :show, id: 'mrx'
+        response.status.should eq NOT_FOUND
+      end
+    end
+    
+    describe 'PUT update' do
+      let(:r) { create :room }
+      let(:s) { create :room }
+      let(:g) { r.game Faker::Lorem.words(3).join }
+      
+      it 'changes the game name if the game exists' do
+        put :update, room_id: r.id, id: g.id, name: 'newname'
+        game = assigns[:game]
+        name = assigns[:name]
+        name.should == 'newname'
+        game.name.should == name
+        response.status.should eq OK
+      end
+      
+      it 'does nothing if the game does not exist' do
+        put :update, room_id: s.id, id: g.id, name: 'error'
+        response.status.should eq NOT_FOUND
       end
     end
   end

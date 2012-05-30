@@ -16,6 +16,7 @@ Uturn::Application.routes.draw do
     resources :games do
       get 'privatize', on: :member
       get 'publicize', on: :member
+      get 'start',     on: :member
     end
     resources :players, only: [:create, :destroy, :index, :show]
   end

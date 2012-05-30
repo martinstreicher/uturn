@@ -14,6 +14,7 @@ gem 'thin'
 gem 'uuid'
 
 group :development, :test do
+  gem 'cheat'
   gem 'faker'
   gem 'factory_girl'
   gem 'rails_best_practices'
