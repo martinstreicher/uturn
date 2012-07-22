@@ -1,7 +1,14 @@
 require 'spec_helper'
 
 describe Room do
-  let(:r)   { create :room, name: 'Test' }
+  let(:r)   { create :room, name: 'Test', owner: 'Joe' }
+  
+  describe 'Factories' do
+    it 'has a valid factory' do
+      r = build :room
+      r.should be_valid
+    end
+  end
   
   describe 'Instance Methods' do
     describe '#game' do
@@ -34,5 +41,27 @@ describe Room do
         r.name.should == 'mrx'
       end
     end
+    
+    describe '#owner' do
+      it 'returns the assigned owner' do
+        r.owner.should == 'Joe'
+      end
+      
+      it 'returns `system` if no owner' do
+        s = create :room
+        s.owner.should == 'system'
+      end
+    end
+    
+    describe '#owner=' do
+      it 'set the owner' do
+        r.owner = 'Sam'
+        r.owner.should == 'Sam'
+      end
+    end   
   end    
+
+  describe 'Validations' do
+    it { should validate_presence_of :name }
+  end
 end

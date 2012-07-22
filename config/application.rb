@@ -12,7 +12,8 @@ end
 module Uturn
   class Application < Rails::Application
     config.autoload_paths += %W(
-      #{config.root}/lib/classes)
+      #{config.root}/lib/classes
+      #{config.root}/lib/mixins)
 
     # Activate observers that should always be running.
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer

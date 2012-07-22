@@ -64,20 +64,6 @@ describe Game do
         end
       end
       
-      describe '#privatize' do 
-        it 'sets status to private' do
-          g.privatize!
-          g.status.should eq 'private'
-        end
-      end
-
-      describe '#publicize' do 
-        it 'sets status to public' do
-          g.privatize!
-          g.status.should eq 'public'
-        end
-      end
-      
       describe '#ready?' do
         it 'returns true if enough players' do
           g.players = %w(player1 player2 player3)

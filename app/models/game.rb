@@ -1,5 +1,6 @@
 class Game < Basis
   include Redis::Objects
+  include Publicize
   
   value :game_name
   list  :plays
@@ -14,6 +15,7 @@ class Game < Basis
     end
     
     options              = args.shift || {}
+    policy.value         = options[:policy].try(:to_s) || 'public'
     game_name.value      = options[:name] || 'New game'
     population_min.value = options[:minimum_number_of_players] || 2
     population_max.value = options[:maximum_number_of_players] || 8
@@ -34,10 +36,6 @@ class Game < Basis
   def maximum_number_of_players
     population_max.value.to_i
   end
-
-  def play
-    Play.create.tap { |new_play| plays << new_play.id }
-  end
   
   def name
     game_name.value
@@ -51,6 +49,10 @@ class Game < Basis
     players.size
   end
   
+  def play
+    Play.create.tap { |new_play| plays << new_play.id }
+  end
+ 
   def ready? 
     number_of_players > minimum_number_of_players
   end

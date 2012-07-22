@@ -1,0 +1,3 @@
+player1 create room 1
+player1 show room 1
+player1 show room 2

@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'concerned_with'
 gem 'debugger'
+gem 'httpclient'
 gem 'jbuilder'
 gem 'jquery-rails'
 gem 'rabl'

@@ -20,6 +20,8 @@ Uturn::Application.routes.draw do
     end
     resources :players, only: [:create, :destroy, :index, :show]
   end
+  
+  root :to => 'welcome#index'
 end
 
 # The priority is based upon order of creation:
@@ -71,7 +73,6 @@ end
 
 # You can have the root of your site routed with "root"
 # just remember to delete public/index.html.
-# root :to => 'welcome#index'
 
 # See how all your routes lay out with "rake routes"
 
