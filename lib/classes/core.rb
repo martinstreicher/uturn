@@ -19,7 +19,7 @@ class Core
     object = self.new(id)
     object.new_record? ? nil : object
   end
-
+  
   def initialize(id = nil)
     @id = id || UUID.generate
   end

@@ -7,16 +7,18 @@ module Publicize
     
     base.class_eval do
       def enroll(*ids)
-        Array.wrap(ids).flatten.each {|e| enrollees << e}
+        bomb if public?
+        ids.deflate.each {|e| enrollees << e.to_s}
       end
       
       def enrollment
         enrollees.members
       end
       
-      def policy=(*ids)
+      def enrollment=(*ids)
+        bomb if public?
         enrollees.clear
-        enrollees << ids
+        enroll ids
       end
       
       def privatize!(*ids)
@@ -30,13 +32,25 @@ module Publicize
       end
 
       def public?
-        policy.value == 'public'
+        policy.value != 'private'
       end
 
       def publicize!
         policy.value = 'public'
         enrollees.clear
       end
+      
+      def <<(*ids)
+        ids.deflate.map(&:to_s).each {|id| 
+          users << id if 
+            booted.exclude?(id) && (public? || enrollment.include?(id))}
+      end
+      
+      private
+      
+        def bomb
+          raise Exception, 'not a private room'
+        end
     end
   end
 end

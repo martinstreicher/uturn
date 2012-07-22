@@ -15,18 +15,15 @@ class Game < Basis
     end
     
     options              = args.shift || {}
-    policy.value         = options[:policy].try(:to_s) || 'public'
     game_name.value      = options[:name] || 'New game'
     population_min.value = options[:minimum_number_of_players] || 2
     population_max.value = options[:maximum_number_of_players] || 8
+
+    privatize! if options[:policy].try(:to_s) == 'private'
   end
 
   def full?
-    ready = false
-    roster_lock.lock do
-      ready = players.size == maximum_number_of_players
-    end
-    ready
+    number_of_players == maximum_number_of_players
   end
     
   def minimum_number_of_players
