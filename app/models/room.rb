@@ -16,7 +16,7 @@ class Room < Basis
   end
   
   def games
-    room_games
+    room_games.to_set
   end
   
   def name

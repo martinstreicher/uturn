@@ -12,16 +12,22 @@ class Basis < Core
   end
   alias_method :add_player, :add_players
 
+  def banned
+    booted.members.to_set
+  end
+  
   def boot(*ids)
-    boots = ids.deflate.to_set
+    boots = ids.deflate.map(&:to_s)
     roster_lock.lock do
-      users -= boots
-      booted += boots
+      remainders = self.users.members - boots
+      self.users.clear
+      self << remainders
+      boots.each {|boot| self.booted << boot}
     end
   end
   
   def players
-    users.members
+    users.members.to_set
   end
 
   def players=(*ids)

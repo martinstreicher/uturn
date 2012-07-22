@@ -26,7 +26,7 @@ describe Basis do
           b.save
           q = Basis.find b.id
           q.should_not be_nil
-          q.players.should == %w(A)
+          q.players.should == %w(A).to_set
         end
 
         it 'does not find "new" records' do
@@ -40,23 +40,53 @@ describe Basis do
       describe '<< or add_players' do
         it '<< adds to the list of players' do
           b << ['A', 'B']
-          b.players.to_set.should == %w(A B).to_set
+          b.players.should == %w(A B).to_set
         end
 
         it 'add_players adds to the list of players' do
           b.add_players 'A', 'B', 'C'
-          b.players.to_set.should == %w(A B C).to_set
+          b.players.should == %w(A B C).to_set
 
           b.add_players %w(X Y Z)
-          b.players.to_set.should == %w(A B C X Y Z).to_set
+          b.players.should == %w(A B C X Y Z).to_set
+        end
+        
+        it 'ignores banned players' do
+          b.add_players 'A', 'B', 'C'
+          b.boot :X, :Y
+          b.add_players %w(X Y Z)
+          b.players.should == %w(A B C Z).to_set
         end
       end
 
+      describe 'banned' do
+      end
+      
+      describe 'booted' do
+        it 'removes players' do
+          b.add_players %w(X Y Z)
+          b.boot(:X)
+          b.players.should == %w(Y Z).to_set
+        end
+        
+        it 'records banned players' do
+          b.add_players %w(X Y Z)
+          b.boot(:X, :Y)
+          b.banned.should == %w(X Y).to_set
+        end
+      end
+      
       describe 'players=' do
         it 'sets the players' do
           b.add_players %w(X Y Z)
           b.players = %w(A B C)
-          b.players.to_set.should == %w(A B C).to_set
+          b.players.should == %w(A B C).to_set
+        end
+        
+        it 'ignores banned players' do
+          b.boot :X, :Y
+          b.add_players %w(X Y Z)
+          b.players.should == %w(Z).to_set
         end
       end
     end
